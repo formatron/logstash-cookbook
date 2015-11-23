@@ -1,7 +1,6 @@
 input {
   beats {
-    port => 5043
-    type => "logs"
+    port => <%= @port %>
     <% unless @certificate.nil? %>
     ssl => true
     ssl_certificate => "<%= @certificate %>"
