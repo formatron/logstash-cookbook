@@ -1,5 +1,6 @@
 version = node['formatron_logstash']['version']
 checksum = node['formatron_logstash']['checksum']
+port = node['formatron_logstash']['port']
 certificate = node['formatron_logstash']['certificate']
 private_key = node['formatron_logstash']['private_key']
 
@@ -44,6 +45,7 @@ end
 
 template '/etc/logstash/conf.d/01-beats-input.conf' do
   variables(
+    port: port,
     certificate: certificate_path,
     private_key: private_key_path
   )
