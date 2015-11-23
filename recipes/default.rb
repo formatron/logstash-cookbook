@@ -18,6 +18,15 @@ dpkg_package 'logstash' do
   notifies :restart, 'service[logstash]', :delayed
 end
 
+# Workaround for problems with beats plugin
+# just keep updating whenever possible?
+bash 'update_beats_plugin' do
+  code <<-EOH.gsub(/^ {4}/, '')
+    ./bin/plugin update logstash-input-beats
+  EOH
+  cwd '/opt/logstash'
+end
+
 template '/etc/logstash/conf.d/01-beats-input.conf' do
   variables(
     port: port
