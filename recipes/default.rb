@@ -19,10 +19,10 @@ dpkg_package 'logstash' do
 end
 
 # Workaround for problems with beats plugin
-# just keep updating whenever possible?
+# force version to 0.9.6
 bash 'update_beats_plugin' do
   code <<-EOH.gsub(/^ {4}/, '')
-    ./bin/plugin update logstash-input-beats
+    ./bin/plugin install --version 0.9.6 logstash-input-beats
   EOH
   cwd '/opt/logstash'
 end
