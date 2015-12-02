@@ -1,0 +1,5 @@
+name 'test'
+version '0.1.0'
+supports 'ubuntu'
+depends 'java'
+depends 'formatron_logstash'

@@ -1,30 +1,18 @@
 version = node['formatron_logstash']['version']
-checksum = node['formatron_logstash']['checksum']
+
 port = node['formatron_logstash']['port']
 
-cache = Chef::Config[:file_cache_path]
-deb = File.join cache, 'logstash.deb' 
-deb_url = "https://download.elastic.co/logstash/logstash/packages/debian/logstash_#{version}.deb"
-
-remote_file deb do
-  source deb_url
-  checksum checksum
-  notifies :install, 'dpkg_package[logstash]', :immediately
+apt_repository 'logstash-2.1' do
+  uri 'https://packages.elastic.co/logstash/2.1/debian'
+  components ['main']
+  distribution 'stable'
+  key 'D88E42B4'
+  keyserver 'pgp.mit.edu'
+  deb_src false
 end
 
-dpkg_package 'logstash' do
-  source deb
-  action :nothing
-  notifies :restart, 'service[logstash]', :delayed
-end
-
-# Workaround for problems with beats plugin
-# force version to 0.9.6
-bash 'update_beats_plugin' do
-  code <<-EOH.gsub(/^ {4}/, '')
-    ./bin/plugin install --version 0.9.6 logstash-input-beats
-  EOH
-  cwd '/opt/logstash'
+package 'logstash' do
+  version version
 end
 
 template '/etc/logstash/conf.d/01-beats-input.conf' do
