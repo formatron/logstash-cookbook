@@ -15,6 +15,14 @@ package 'logstash' do
   version version
 end
 
+directory '/etc/logstash/patterns' do
+  recursive true
+end
+
+cookbook_file '/etc/logstash/patterns/nginx' do
+  notifies :restart, 'service[logstash]', :delayed
+end
+
 template '/etc/logstash/conf.d/01-beats-input.conf' do
   variables(
     port: port
@@ -23,6 +31,10 @@ template '/etc/logstash/conf.d/01-beats-input.conf' do
 end
 
 cookbook_file '/etc/logstash/conf.d/10-syslog.conf' do
+  notifies :restart, 'service[logstash]', :delayed
+end
+
+cookbook_file '/etc/logstash/conf.d/10-nginx.conf' do
   notifies :restart, 'service[logstash]', :delayed
 end
 
