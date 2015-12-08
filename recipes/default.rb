@@ -2,6 +2,8 @@ version = node['formatron_logstash']['version']
 
 port = node['formatron_logstash']['port']
 
+patterns_dir = '/etc/logstash/patterns'
+
 apt_repository 'logstash-2.1' do
   uri 'https://packages.elastic.co/logstash/2.1/debian'
   components ['main']
@@ -15,7 +17,7 @@ package 'logstash' do
   version version
 end
 
-directory '/etc/logstash/conf.d/patterns' do
+directory patterns_dir do
   recursive true
 end
 
@@ -30,7 +32,10 @@ template '/etc/logstash/conf.d/10-inputs.conf' do
   notifies :restart, 'service[logstash]', :delayed
 end
 
-cookbook_file '/etc/logstash/conf.d/20-filters.conf' do
+template '/etc/logstash/conf.d/20-filters.conf' do
+  variables(
+    patterns_dir: patterns_dir
+  )
   notifies :restart, 'service[logstash]', :delayed
 end
 
