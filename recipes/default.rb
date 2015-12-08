@@ -3,6 +3,7 @@ version = node['formatron_logstash']['version']
 port = node['formatron_logstash']['port']
 
 patterns_dir = '/etc/logstash/patterns'
+nginx_patterns = File.join patterns_dir, 'nginx'
 
 apt_repository 'logstash-2.1' do
   uri 'https://packages.elastic.co/logstash/2.1/debian'
@@ -21,7 +22,7 @@ directory patterns_dir do
   recursive true
 end
 
-cookbook_file '/etc/logstash/conf.d/patterns/nginx' do
+cookbook_file nginx_patterns do
   notifies :restart, 'service[logstash]', :delayed
 end
 
