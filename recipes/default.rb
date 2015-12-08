@@ -23,22 +23,18 @@ cookbook_file '/etc/logstash/patterns/nginx' do
   notifies :restart, 'service[logstash]', :delayed
 end
 
-template '/etc/logstash/conf.d/01-beats-input.conf' do
+template '/etc/logstash/conf.d/10-inputs.conf' do
   variables(
     port: port
   )
   notifies :restart, 'service[logstash]', :delayed
 end
 
-cookbook_file '/etc/logstash/conf.d/10-syslog.conf' do
+cookbook_file '/etc/logstash/conf.d/20-filters.conf' do
   notifies :restart, 'service[logstash]', :delayed
 end
 
-cookbook_file '/etc/logstash/conf.d/10-nginx.conf' do
-  notifies :restart, 'service[logstash]', :delayed
-end
-
-cookbook_file '/etc/logstash/conf.d/30-beats-output.conf' do
+cookbook_file '/etc/logstash/conf.d/30-outputs.conf' do
   notifies :restart, 'service[logstash]', :delayed
 end
 
