@@ -15,11 +15,11 @@ package 'logstash' do
   version version
 end
 
-directory '/etc/logstash/patterns' do
+directory '/etc/logstash/conf.d/patterns' do
   recursive true
 end
 
-cookbook_file '/etc/logstash/patterns/nginx' do
+cookbook_file '/etc/logstash/conf.d/patterns/nginx' do
   notifies :restart, 'service[logstash]', :delayed
 end
 
