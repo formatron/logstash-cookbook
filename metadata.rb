@@ -1,4 +1,7 @@
 name 'formatron_logstash'
 version '0.1.0'
+description 'Formatron Logstash cookbook'
+source_url 'https://github.com/formatron/logstash-cookbook'
+issues_url 'https://github.com/formatron/logstash-cookbook/issues'
 supports 'ubuntu'
 depends 'apt'
