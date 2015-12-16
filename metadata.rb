@@ -1,5 +1,5 @@
 name 'formatron_logstash'
-version '0.1.1'
+version '0.1.2'
 description 'Formatron Logstash cookbook'
 maintainer 'Peter Halliday'
 maintainer_email 'pghalliday@gmail.com'
